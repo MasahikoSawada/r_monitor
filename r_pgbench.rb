@@ -69,7 +69,6 @@ Gnuplot.open do |gp|
   # Draw at the bottom
   Gnuplot::Plot.new(gp) do |plot|
     # Global setting
-    plot.title 'Response-Time Scatter Plot'
     if !$output.nil?
       plot.terminal 'png size 800, 600'
       plot.output "#{$output}"
@@ -79,6 +78,7 @@ Gnuplot.open do |gp|
 
     # Enter multiplot mode
     plot.multiplot
+    plot.title 'Response-Time Scatter Plot'
 
     # Set label name
     plot.xlabel 'Time'
@@ -100,7 +100,7 @@ Gnuplot.open do |gp|
 
   # Draw at the top
   Gnuplot::Plot.new(gp) do |plot|
-    #plot.multiplot
+    plot.multiplot
     plot.title 'Response-Time Histgram'
     plot.style 'fill solid 0.1 border'
     plot.xrange "[#{ar_duration_sorted[0].to_i}:#{ninety_percent_tile}]"
