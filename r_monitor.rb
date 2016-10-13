@@ -8,14 +8,14 @@ module ResultType
 end
 include ResultType
 
-########################
+##############################################
 #
 # Command list
 # $1 : name.
 # $2 : command which should return one line.
 # $3 : flag.
 #
-########################
+#############################################
 $cmd_list = [
             ["dt", "cat /proc/meminfo | grep Dirty: | cut -d \":\" -f 2", TYPE_UNIT],
             ["wb", "cat /proc/meminfo | grep Writeback: | cut -d \":\" -f 2", TYPE_UNIT],
@@ -54,6 +54,8 @@ def unit2raw(str)
   return ret.to_s
 end
 
+# Get header data.
+#   "time" field should be added at first.
 def getHeader()
   header = ""
 
@@ -67,7 +69,7 @@ end
 
 # Main Logic
 
-# Put header data
+# Put header data.
 puts getHeader()
 
 while true
@@ -85,10 +87,10 @@ while true
       o = unit2raw(o.strip)
     end
 
-    # Append info to output string
+    # Append info to output string.
     str = appendStr(str, o)
   end
-  
+
   puts str
   sleep 1
 end
