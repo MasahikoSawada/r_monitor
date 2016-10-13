@@ -19,6 +19,7 @@ $ cat pgbench_log.12345 | ruby r_pgbench.rb -o graph.png
 ```
 
 ## Sample
+r_pgbench outputs the summary and graph as follows.
 ```
 $ ruby r_pgbench.rb -f pgbench_log.12345 -o graph.png
 ================= Summary =================
