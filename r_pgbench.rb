@@ -71,10 +71,11 @@ Gnuplot.open do |gp|
     # Global setting
     plot.title 'Response-Time Scatter Plot'
     if !$output.nil?
-      plot.terminal 'png size 1280, 720'
+      plot.terminal 'png size 800, 600'
       plot.output "#{$output}"
+    else
+      plot.terminal 'x11 size 1280 720'
     end
-    plot.terminal 'x11 size 1280 720'
 
     # Enter multiplot mode
     plot.multiplot
