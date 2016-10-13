@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# coding: utf-8
 
 require 'csv'
 require 'gnuplot'
@@ -24,6 +25,7 @@ base_nano = 0
 duration_max = 0
 ar_time = []
 ar_duration = []
+
 # Read CSV data that is outputed by pgbench -l option while
 # constructing data for the scatter plot
 CSV.filter(input, open(File::NULL, ?w), col_sep: " ") do |data|
@@ -41,11 +43,24 @@ CSV.filter(input, open(File::NULL, ?w), col_sep: " ") do |data|
   i += 1
 end
 
+# Calcurate 90% tile
+ar_duration_sorted = ar_duration.sort
+ninety_percent = (i * 0.9).to_i
+ninety_percent_tile = (ar_duration_sorted[ninety_percent] + 1).to_i
+
 # Construt data for histgram graph
-hist_range = ar_duration.max + 1
-hist_num = Array.new(hist_range, 0)
-ar_duration.each do | d |
-  hist_num[d.to_i] += 1
+hist_len = ar_duration.length + 1
+hist_duration = Array.new(hist_len, 0)
+hist_num = Array.new(hist_len, 0)
+prev = 0
+i = 0
+ar_duration_sorted.each do | d |
+  duration = d.round(1) # per 100ms
+
+  hist_duration[i] = duration
+  hist_num[i] += 1
+  i += 1 if prev != duration && prev != 0
+  prev = duration
 end
 
 # Plot Scatter plot and histgram of pgbench response time
@@ -86,8 +101,10 @@ Gnuplot.open do |gp|
     #plot.multiplot
     plot.title 'Response-Time Histgram'
     plot.style 'fill solid 0.1 border'
-    plot.xrange "[0:#{hist_range}]"
-    
+    plot.xrange "[#{ar_duration_sorted[0].to_i}:#{ninety_percent_tile}]"
+    plot.xtics '0.1'
+    plot.format 'x "%4.1f"'
+
     # Set label name
     plot.xlabel 'Response Time(msec)'
     plot.ylabel 'Count'
@@ -100,7 +117,7 @@ Gnuplot.open do |gp|
     plot.origin '0.0,0.5'
 
     # Plot
-    plot.data << Gnuplot::DataSet.new( hist_num ) do | ds |
+    plot.data << Gnuplot::DataSet.new( [hist_duration, hist_num] ) do | ds |
       ds.with = "boxes"
       ds.title = "count"
       ds.linecolor = 'rgb "cyan"'
