@@ -31,4 +31,4 @@ Thoughput Average     : 270.625750 (TPS)
 ===========================================
 ```
 
-![image](sample_pgbench.png)
+![image](images/sample_pgbench.png)
