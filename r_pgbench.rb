@@ -126,3 +126,13 @@ Gnuplot.open do |gp|
     end
   end
 end
+
+# Ouput Summary
+puts "================= Summary ================="
+puts "Total transactions    : %d (xacts)" % ar_duration.length
+puts "Duration              : %f (sec)" % ar_time.max
+puts "Response Time 90%%tile : %f (msec)" % ar_duration_sorted[ninety_percent]
+puts "              Min     : %f (msec)" % ar_duration.min
+puts "              Max     : %f (msec)" % ar_duration.max
+puts "Thoughput Average     : %f (TPS)" % (ar_duration.length / ar_time.max)
+puts "==========================================="
