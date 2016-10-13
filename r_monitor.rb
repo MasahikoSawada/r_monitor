@@ -16,11 +16,12 @@ include ResultType
 # $3 : flag.
 #
 #############################################
-$cmd_list = [
-            ["dt", "cat /proc/meminfo | grep Dirty: | cut -d \":\" -f 2", TYPE_UNIT],
-            ["wb", "cat /proc/meminfo | grep Writeback: | cut -d \":\" -f 2", TYPE_UNIT],
-            ["fr", "cat /proc/meminfo | grep MemFree: | cut -d \":\" -f 2", TYPE_UNIT]
-           ]
+$cmd_list =
+  [
+    ["dt", "cat /proc/meminfo | grep Dirty: | cut -d \":\" -f 2", TYPE_UNIT],
+    ["wb", "cat /proc/meminfo | grep Writeback: | cut -d \":\" -f 2", TYPE_UNIT],
+    ["fr", "cat /proc/meminfo | grep MemFree: | cut -d \":\" -f 2", TYPE_UNIT]
+  ]
 
 # Append string r to given s.
 def appendStr(s, r, escape = false)
