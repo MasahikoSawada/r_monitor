@@ -104,7 +104,6 @@ Gnuplot.open do |gp|
     plot.title 'Response-Time Histgram'
     plot.style 'fill solid 0.1 border'
     plot.xrange "[#{ar_duration_sorted[0].to_i}:#{ninety_percent_tile}]"
-    plot.xtics '0.1'
     plot.format 'x "%4.1f"'
 
     # Set label name
