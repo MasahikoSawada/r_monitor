@@ -18,10 +18,10 @@ include ResultType
 #############################################
 $cmd_list =
   [
-    ["dt", "cat /proc/meminfo | grep Dirty: | cut -d \":\" -f 2", TYPE_UNIT],
-    ["wb", "cat /proc/meminfo | grep Writeback: | cut -d \":\" -f 2", TYPE_UNIT],
-    ["fr", "cat /proc/meminfo | grep MemFree: | cut -d \":\" -f 2", TYPE_UNIT]
+    ["dirty", "cat /proc/meminfo | grep Dirty: | cut -d \":\" -f 2", TYPE_UNIT],
+    ["writeback", "cat /proc/meminfo | grep Writeback: | cut -d \":\" -f 2", TYPE_UNIT]
   ]
+seqno=0
 
 # Append string r to given s.
 def appendStr(s, r, escape = false)
@@ -61,6 +61,7 @@ def getHeader()
   header = ""
 
   appendStr(header, "time")
+  appendStr(header, "seqno")
   $cmd_list.each do | name, cmd, type |
     appendStr(header, name)
   end
@@ -78,6 +79,8 @@ while true
   time = Time.now()
 
   appendStr(str, time.strftime("%Y/%m/%d %H:%M:%S"), true)
+  str = appendStr(str, seqno.to_s)
+  seqno += 1
 
   # Collect information while iterating over command list.
   $cmd_list.each do | name, cmd, type |
