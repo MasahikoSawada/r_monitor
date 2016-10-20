@@ -17,6 +17,7 @@ opt.parse!(ARGV)
 
 $logfile = params[:f]
 $output = params[:o]
+$dryrun = params[:v]
 input = ($logfile.nil? || $logfile == '-') ? STDIN : File.open($logfile)
 
 i = 0
@@ -61,6 +62,13 @@ ar_duration_sorted.each do | d |
   hist_num[i] += 1
   i += 1 if prev != duration && prev != 0
   prev = duration
+end
+
+if $dryrun
+  ar_time.zip(ar_duration).each do |time, duration|
+    puts "%.4f,%.4f" % [time, duration]
+  end
+  exit
 end
 
 # Plot Scatter plot and histgram of pgbench response time
