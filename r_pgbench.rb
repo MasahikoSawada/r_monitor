@@ -11,8 +11,9 @@ $output = ""
 # Parse options
 opt = OptionParser.new
 params = {}
-opt.on('-f pgbench log file') { |v| params[:f] = v }
-opt.on('-o output file (.png)') { |v| params[:o] = v }
+opt.on('-f logfile', 'pgbench log file') { |v| params[:f] = v }
+opt.on('-o outputfile', 'output .png file') { |v| params[:o] = v }
+opt.on('-d') { |v| params[:v] = v }
 opt.parse!(ARGV)
 
 $logfile = params[:f]
